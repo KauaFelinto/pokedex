@@ -1,0 +1,69 @@
+*{
+    box-sizing: border-box;
+}
+
+#detalhe {
+    background-color: rgb(158, 84, 231);
+    color: #fff;
+    border: none;
+    border-radius: 1em;
+    font-size: 70%;
+    line-height: 1.15;
+    width: 50%;
+    margin: 0;
+    cursor: pointer;
+}
+#detalhe:hover {
+    background-color: rgb(96, 18, 173);
+}
+
+.popup-poke {
+    display: none;
+    background: rgba(0, 0, 0, 0.1);
+    color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.popup {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 10% auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 1rem;
+    position: relative;
+}
+
+.popup a {
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 6px 10px;
+    background-color: crimson;
+}
+
+.popup-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#popup-poke .abrir {
+    display: none;
+}
+
+.list{
+    list-style: none;
+    margin: 5px;
+    text-align: center;
+    width: 100px;
+
+}
