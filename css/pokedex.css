@@ -1,18 +1,10 @@
 
 .pokemons {
-    padding: 0;
-    margin: 0;
     display: grid;
     grid-template-columns: 1fr;
-}
-
-.pokemon{
-    margin: .5rem;
-    padding: 1rem;
-    color: #fff;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .normal {
@@ -87,40 +79,182 @@
     background-color: #f9aec7;
 }
 
-.pokemon .name {
-    color: #fff;
-    margin-bottom: .25rem;
-    text-transform: capitalize;
+.pokemon {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: .5rem;
+    padding: 1rem;
+    border-radius: 1rem;
 }
+
 .pokemon .number {
-    color: grey;
+    color: #000;
+    opacity: .3;
     text-align: right;
     font-size: .625rem;
 }
-.pokemon .types {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+
+.pokemon .name {
+    text-transform: capitalize;
+    color: #fff;
+    margin-bottom: .25rem;
 }
+
 .pokemon .detail {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
+
+.pokemon .detail .types {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
 .pokemon .detail .types .type {
     color: #fff;
-    padding: .25em .5rem;
+    padding: .25rem .5rem;
     margin: .25rem 0;
     font-size: .625rem;
     border-radius: 1rem;
-    border: 1px solid #fff;
+    filter: brightness(1.1);
     text-align: center;
 }
 
-.pokemons .detail img {
+.pokemon .detail img {
     max-width: 100%;
     height: 70px;
+}
+
+#close {
+    position: absolute;
+    font-size: 2rem;
+    padding: 5px;
+    color: #fff;
+}
+
+.dGrid{
+    display: grid;
+}
+
+.dNone{
+    display: none;
+}
+
+#pokeDetailModal {
+    background-color: #00000060;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#pokeDetail {
+    background-color: #ecececef;
+    width: 80vw;
+    height: 70vh;
+    max-width: 560px;
+    border-radius: 20px;
+    overflow: auto;
+    padding-bottom: 15px;
+    z-index: 999;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.description img {
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.name{
+    text-transform: capitalize;
+}
+
+#typesModal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 15px 0px 0px 0px;
+    padding: 0;
+}
+
+#typesModal li {
+    list-style: none;
+    padding: 8px;
+    margin: 2px;
+    border-radius: 10px;
+    filter: brightness(1.1);
+    color: #fff;
+    text-align: center;
+}
+
+#characteristics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#characteristics h3 {
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+#characteristics p {
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0;
+}
+
+#stats {
+    text-align: center;
+    margin-top: 45px;
+}
+
+#stats div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 20px
+}
+
+#stats h4,
+p {
+    margin: 0;
+}
+
+.red,
+.blue,
+.yellow {
+    margin: auto;
+    width: 90%;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.red {
+    background-color: red;
+}
+
+.yellow {
+    background-color: #dada2da6;
+}
+
+.blue {
+    background-color: #0051ffcb;
 }
 
 .pagination {
@@ -133,17 +267,13 @@
 }
 
 .pagination button {
-    cursor: pointer;
+    padding: .25rem .5rem;
+    margin: .25rem 0;
+    font-size: .625rem;
+    color: #fff;
     background-color: #6c79db;
     border: none;
-    border-radius: .5rem;
-    color: #fff;
-    font-size: 80%;
-    padding: .25rem .25rem;
-    margin: .1rem;
-}
-.pagination button:hover {
-    background-color: #3b4277;
+    border-radius: 1rem;
 }
 
 @media screen and (min-width: 380px) {
@@ -151,6 +281,7 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
 @media screen and (min-width: 576px) {
     .pokemons {
         grid-template-columns: 1fr 1fr 1fr;
@@ -161,4 +292,14 @@
     .pokemons {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
+}
+
+#Load {
+    cursor: pointer;
+}
+.bi-info-circle {
+    cursor: pointer;
+}
+.bi-arrow-left-circle {
+    cursor: pointer;
 }

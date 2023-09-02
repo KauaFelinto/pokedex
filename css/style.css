@@ -21,6 +21,11 @@ body {
     text-align: center;
     margin: auto;
 }
+#pokebola{
+    width: 40px;
+    margin: auto;
+    padding: auto;
+}
 
 .content {
     width: 100vw;
@@ -28,6 +33,7 @@ body {
     padding: 1rem;
     background-color: #fff;
 }
+
 
 .content h1 {
     margin: 0;

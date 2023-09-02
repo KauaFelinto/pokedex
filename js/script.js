@@ -1,56 +1,117 @@
 const pokemonList = document.getElementById('pokemonList')
-const Load = document.getElementById('Load')
-const maxPoke = 151
-const limit = 10
-let offset = 0
+const loadMoreButton = document.getElementById('Load')
+const modal = document.getElementById('pokeDetailModal')
+const btnClose = document.getElementById('close')
 
 
-function loadPoke(offset, limit) {
-    pokeApi.getPokemons(offset, limit).then((pokemon = []) => {
-        pokemonList.innerHTML += pokemon.map((pokemon) => `<li class="pokemon ${pokemon.type}">
-        <span class="number">#${pokemon.number}</span>
-        <span class="name">${pokemon.name}</span>
-        
-        <div class="detail">
-            <ol class="types">
-              ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
-            </ol>
-            
-            <img src="${pokemon.photo}" alt="${pokemon.name}">
-        </div>
+const maxRecords = 649
+const limit = 20
+let offset = 0;
 
-        <button onclick="abrir()" id="detalhe" type="button">more</button>
-        </li> 
-        <div class="popup-poke" id="popup-poke">
-        <div class="popup">
-    <div onclick="fechar()" class="popup-close">x</div>
-    <li class="pokemon ${pokemon.type}">
-    <span class="name">${pokemon.name}</span>
-        <img src="${pokemon.photo}" alt="${pokemon.name}">
-        <P>${pokemon.types.map((type) => `<li class="list ${type}">${type}</li>`).join('')}</li></p>
-        <a href="#">${pokemon.name}</a>
-    </div>
-        </div>
-	</div> `
-        ).join('')
+function convertPokemonToLi(pokemon) {
+    return `
+        <li class="pokemon ${pokemon.type}" data-id="${pokemon.number}">
+            <span class="number">#${pokemon.number}</span>
+            <span class="name">${pokemon.name} <span> <i class="bi-info-circle"></i></span></span>
+
+            <div class="detail">
+                <ol class="types">
+                    ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
+                </ol>
+
+                <img src="${pokemon.photo}"
+                     alt="${pokemon.name}">
+            </div>
+        </li>
+    `
+}
+
+function loadPokemonItens(offset, limit) {
+    pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
+        const newHtml = pokemons.map(convertPokemonToLi).join('')
+        pokemonList.innerHTML += newHtml
     })
 }
 
-
-
-
-loadPoke(offset, limit)
+loadPokemonItens(offset, limit)
 
 Load.addEventListener('click', () => {
     offset += limit
-    
-    const qdtPoke = offset + limit
+    const qtdRecordsWithNexPage = offset + limit
 
-    if (qdtPoke >= maxPoke) {
-        const newLimit = qdtPoke - maxPoke
-        loadPoke(offset, limit)
-        Load.parentElement.removeChild(Load)
+    if (qtdRecordsWithNexPage >= maxRecords) {
+        const newLimit = maxRecords - offset
+        loadPokemonItens(offset, newLimit)
+
+        loadMoreButton.parentElement.removeChild(loadMoreButton)
     } else {
-        loadPoke(offset, limit)
+        loadPokemonItens(offset, limit)
     }
 })
+
+pokemonList.addEventListener('click', (event) => {
+    const clickedPokemon = event.target.closest('.pokemon');
+    if (clickedPokemon) {
+        const pokemonId = clickedPokemon.getAttribute('data-id');
+        pokeApi.detailsPokeToModal(pokemonId)
+            .then((detailsModal) => {
+                const details = pokemonModal(detailsModal, pokemonId)
+                modal.innerHTML = details
+                modal.classList.remove("dNone");
+                modal.classList.add("dGrid");
+            })
+    }
+});
+
+function pokemonModal(detailsToModal, id) {
+    return `
+            <div id="pokeDetail">
+            <div id="close"><i id="iconClose" class="bi-arrow-left-circle"></i></div>
+            <div class="description ${detailsToModal.type}">
+                <img src="${detailsToModal.photo}"
+                    alt="${detailsToModal.name}">
+                <p class="name" >${detailsToModal.name}</p>
+                <ol id="typesModal">
+                ${detailsToModal.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
+                </ol>
+            </div>
+            <div id="characteristics">
+                <div>
+                    <h3>${detailsToModal.height} M</h3>
+                    <p>Height</p>
+                </div>
+                <div>
+                    <h3>${detailsToModal.weight} KG</h3>
+                    <p>Weight</p>
+                </div>
+            </div>
+            <div id="stats">
+                <h2>Stats</h2>
+                <div class="red">
+                    <h4>HP</h4>
+                    <p>${detailsToModal.stats[0]}</p>
+                </div>
+                <div class="yellow">
+                    <h4>Attack</h4>
+                    <p>${detailsToModal.stats[1]}</p>
+                </div>
+                <div class="blue">
+                    <h4>Defense</h4>
+                    <p>${detailsToModal.stats[2]}</p>
+                </div>
+            </div>
+            </div>
+        `
+}
+
+modal.addEventListener('click', closeModal)
+try{
+    btnClose.addEventListener('click', closeModal)
+} catch{}
+
+function closeModal(event) {
+    if(event.target.id === "pokeDetailModal" || event.target.id === "close" || event.target.id === "iconClose"){
+        modal.classList.add('dNone');
+        modal.classList.remove('dGrid');
+    }
+}
